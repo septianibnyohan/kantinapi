@@ -7,6 +7,7 @@ use DB;
 use Yajra\DataTables\Datatables;
 use App\Stand;
 use App\StandActive;
+use App\Tenant;
 use App\Open;
 use File;
 use App\PhotoStand;
@@ -217,5 +218,38 @@ class StandController extends Controller
     		return response()->json(["code"=>"200", "status"=>false, "message"=> 'Insert Stand Failed']);
     	}
 
+    }
+
+    public function update_stand(Request $request)
+    {
+        $input = $request->all();
+
+        $tenant = new Tenant;
+        $tenant->phone = $input['phone'];
+        $tenant->email = $input['email'];
+        $tenant->name_profile = $input['name_profile'];
+        $response = $tenant->save();
+
+        $stand_active = new StandActive;
+        $stand_active->stand_id = $input['stand_id'];
+        $stand_active->number_stan = $input['number_stan'];
+        $stand_active->tenant_date = $input['tenant_date'];
+        $stand_active->status_active = $input['status_active'];
+        $response = $stand_active->save();
+
+        $open_hours = new Open;
+        $open_hours->stand_id_active = $response->stan_id_active;
+        $open_hours->open_time = $input['open_time'];
+        $open_hours->close_time = $input['open_time'];
+        $response = $stand_active->save();
+
+        if($response)
+    	{
+    		return response()->json(["code"=>"200", "status"=>true, "message"=> 'Update Stand Success']);
+    	}
+    	else
+    	{
+    		return response()->json(["code"=>"200", "status"=>false, "message"=> 'Update Stand Failed']);
+    	}
     }
 }
