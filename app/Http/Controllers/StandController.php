@@ -237,12 +237,29 @@ class StandController extends Controller
         $stand_active->status_active = $input['status_active'];
         $response = $stand_active->save();
 
-        $open_hours = new Open;
-        $open_hours->stand_id_active = $response->stan_id_active;
-        $open_hours->open_time = $input['open_time'];
-        $open_hours->close_time = $input['open_time'];
-        $response = $stand_active->save();
+        $stand_id_active = $response->stand_id_active;
 
+        $photo_stand = $request->file('photo_stand');
+        $dir_to = public_path().'/images/';
+        $photo_stand->move($dir_to, $stand_id_active . '_'.$photo_stand->getClientOriginalName());
+        
+        $photo_stand = new PhotoStand;
+        $photo_stand->stand_id_active = $stand_id_active;
+        $photo_stand->photo_stand = '/images'. $stand_id_active . '_'.$photo_stand->getClientOriginalName();
+        $photo_stand->save();
+
+        $json_list_open_hour = $input['list_open_hour'];
+        $list_open_hour = json_decode($json_list_open_hour);
+
+        foreach ($list_open_hour as $item)
+        {
+            $open_hours = new Open;
+            $open_hours->stand_id_active = $stan_id_active;
+            $open_hours->open_time = $item->open_time;
+            $open_hours->close_time = $item->close_time;
+            $response = $stand_active->save();
+        }
+        
         if($response)
     	{
     		return response()->json(["code"=>"200", "status"=>true, "message"=> 'Update Stand Success']);
