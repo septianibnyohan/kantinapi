@@ -240,12 +240,12 @@ class StandController extends Controller
         $stand_id_active = $response->stand_id_active;
 
         $photo_stand = $request->file('photo_stand');
-        $dir_to = public_path().'/images/';
+        $dir_to = public_path().'/images/stand/';
         $photo_stand->move($dir_to, $stand_id_active . '_'.$photo_stand->getClientOriginalName());
         
         $photo_stand = new PhotoStand;
         $photo_stand->stand_id_active = $stand_id_active;
-        $photo_stand->photo_stand = '/images'. $stand_id_active . '_'.$photo_stand->getClientOriginalName();
+        $photo_stand->photo_stand = '/images/stand/'. $stand_id_active . '_'.$photo_stand->getClientOriginalName();
         $photo_stand->save();
 
         $json_list_open_hour = $input['list_open_hour'];
@@ -268,5 +268,21 @@ class StandController extends Controller
     	{
     		return response()->json(["code"=>"200", "status"=>false, "message"=> 'Update Stand Failed']);
     	}
+    }
+
+    public function delete_stand($id)
+    {
+        $stand_active = StandActive::where('stand_id', $id)->first();
+        $response = Tenant::where('tenant_id', $stand_active->tenant_id)->delete();
+        
+        $foto = PhotoStand::where('stand_id_active', $stand_active->stan_id_active)->first();
+        if(!empty($foto))
+        {
+            File::delete('./images/stand/'.$foto);
+        }
+        $response = PhotoStand::where('stand_id_active', $stand_active->stan_id_active)->delete();
+        $response = Open::where('stand_id_active', $stand_active->stan_id_active)->delete();
+        $response = StandActive::where('stand_id', $id)->delete();
+        $response = Stand::where('stan_id', $id)->delete();
     }
 }

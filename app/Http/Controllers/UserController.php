@@ -130,4 +130,15 @@ class UserController extends Controller
                  '<a style="margin-left:2px;" id="btn_reject" onclick="deleteForm('.$userlist->user_id.')" class="btn btn-outline-primary waves-effect waves-light btn-sm"><i class="fa fa-trash"></i></a></center>';
         })->rawColumns(['created_at','user_id','first_name','status','action'])->make(true);
     }
+
+    public function list_stand()
+    {
+        $list_user = Userlist::get();
+        return response()->json([
+            "code"=>"200", 
+            "status"=>true,
+            'message' => 'success',
+            "data" => $list_user
+        ]);
+    }
 }

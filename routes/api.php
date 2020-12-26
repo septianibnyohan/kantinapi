@@ -21,3 +21,4 @@ Route::get('get_summary', 'DashboardController@get_summary');
 
 Route::get('list_stand', 'StandController@list_stand');
 Route::post('add_stand', 'StandController@add_stand');
+Route::get('list_user', 'UserController@list_user');

@@ -112,20 +112,4 @@ class DashboardController extends Controller
             "data" => $data
         ]);
     }
-
-    public function get_summary()
-    {
-        $user = Register::get();
-        $stand = Stand::get();
-        $data['user_total'] = $user->count();
-        $data['stand_total'] = $stand->count();
-        $data['stand_new'] = 0;
-        $data['user_new'] = 0;
-        return response()->json([
-            "code"=>"200", 
-            "status"=>true,
-            'message' => 'success',
-            "data" => $data
-        ]);
-    } 
 }
