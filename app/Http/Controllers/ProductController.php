@@ -22,4 +22,16 @@ class ProductController extends Controller
             "data" => $list_data
         ]);
     }
+
+    public function search_product(Request $request)
+    {
+        $search = $request->search;
+        $list_data = TableProducts::where('product_name', 'like', '%'.$search.'%')->get();
+        return response()->json([
+            "code"=>"200", 
+            "status"=>true,
+            'message' => 'success',
+            "data" => $list_data
+        ]);
+    }
 }
