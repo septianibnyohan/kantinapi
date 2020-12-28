@@ -25,3 +25,5 @@ Route::post('update_stand', 'StandController@update_stand');
 Route::get('list_user', 'UserController@list_user');
 
 Route::get('list_product', 'ProductController@list_product');
+
+Route::post('create_order', 'OrderController@create_order');
