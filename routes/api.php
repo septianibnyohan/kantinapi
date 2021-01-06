@@ -28,5 +28,12 @@ Route::get('list_product', 'ProductController@list_product');
 Route::get('search_product', 'ProductController@search_product');
 
 Route::get('list_article', 'ArticleController@list_article');
+Route::get('detail_article', 'ArticleController@detail_article');
 
 Route::post('create_order', 'OrderController@create_order');
+
+Route::post('create_topup', 'TopupController@create_topup');
+Route::get('list_topup', 'TopupController@list_topup');
+
+Route::get('list_activity', 'ActivityController@list_activity');
+Route::get('detail_activity', 'ActivityController@detail_activity');

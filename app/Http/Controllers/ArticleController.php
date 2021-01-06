@@ -22,4 +22,9 @@ class ArticleController extends Controller
             "data" => $list_data
         ]);
     }
+
+    public function detail_article(Request $request)
+    {
+        
+    }
 }
